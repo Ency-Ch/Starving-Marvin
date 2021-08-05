@@ -10,15 +10,16 @@
 
 .container {
   text-align: center;
-  height: 500px;
+  height: 1000px;
   margin-top: 50px;
-  margin-left: 500px;
-  margin-right: 500px;
+  margin-left: 300px;
+  margin-right: 300px;
   margin-bottom: 200px;
   padding: 50px;
   background-color: #225470;
   border: black solid;
   border-radius: 50px;
+  box-sizing: content-box;
 }
 
 .form-group {
@@ -60,4 +61,68 @@
   border-radius: 25px;
   font-size: 20px;
   font-weight: 100;
+}
+
+#fast-record-start {
+  margin: 20px;
+  padding: 20px;
+}
+
+.fast-record {
+  margin: 50px;
+}
+.fast-record h1 {
+  margin: ;
+}
+.container2 {
+  height: 20px;
+  background-color: #ccc;
+  position: relative;
+}
+
+.container .progress-bar {
+  position: absolute;
+  height: 20px;
+  background-color: blueviolet;
+  /* animation: progress-animation 20s forwards;*/
+  animation: name duration timing-function delay iteration-count direction
+    fill-mode;
+}
+
+.btn {
+  position: relative;
+  margin-top: 50px;
+}
+
+@keyframes progress-animation {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+.current-fast h1 {
+  padding: 100px;
+}
+
+table {
+  margin: 20px;
+}
+#time-left {
+  margin-top: 20px;
+  border: none;
+  background-color: white;
+  color: red;
+  text-align: center;
+}
+
+.delete {
+  color: red;
+}
+.delete:hover {
+  color: white;
+  cursor: pointer;
 }
