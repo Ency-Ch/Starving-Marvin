@@ -9,8 +9,9 @@
 }
 
 .container {
+  box-sizing: border-box;
   text-align: center;
-  height: 1000px;
+  height: 2000px;
   margin-top: 50px;
   margin-left: 300px;
   margin-right: 300px;
@@ -28,6 +29,7 @@
 }
 
 .form-group input {
+  box-sizing: border-box;
   width: 100%;
   max-width: 280px;
   padding: 5px 10px;
@@ -69,10 +71,11 @@
 }
 
 .fast-record {
+  overflow: auto;
+  box-sizing: border-box;
   margin: 50px;
 }
 .fast-record h1 {
-  margin: ;
 }
 .container2 {
   height: 20px;

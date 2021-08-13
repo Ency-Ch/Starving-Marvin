@@ -6,10 +6,11 @@
   startTime = document.getElementById('start'),
   duration = document.getElementById('duration-select'),
   selectedDuration = getSelectedOption(duration).text,
-  finishDateAndTime = document.getElementById('end')
-  deleteButton = document.querySelector('.delete')
+  finishDateAndTime = document.getElementById('end'),
+  deleteButton = document.querySelector('.delete'),
+  validationpara = document.getElementById('validationalert')
 
-  //disabling the previous date picker 
+ 
 
     
       
@@ -18,33 +19,8 @@
 
 document.getElementById('form').addEventListener('submit',function(e) {
 
-    /*if (startDate.value === NaN || startTime.value === NaN|| selectedDuration === 'choose fasting duration' ){
-       var validationpara = document.getElementById('validationalert')
-       validationpara.innerHTML = 'please enter valid start dates, times or duration'
-
-       setTimeout(clearValidationParagraph, 3000)
-       console.log(startDate.value)
-
-       console.log(validationpara.innerHTML)
-
-       function clearValidationParagraph (){
-           validationpara.innerHTML = ''
-       }
-
-    }else{
-        
-
-    }*/
+  
     calculateFinishTime()
-    
-
-     
-
-    
-
-
-
-
 
     e.preventDefault();
 
@@ -63,7 +39,7 @@ function getSelectedOption(select) {
     
 }
 
-console.log()
+
 
 function calculateFinishTime() {
 
@@ -80,12 +56,16 @@ function calculateFinishTime() {
        validationpara.innerHTML = 'please enter valid start dates, times or duration'
 
        setTimeout(clearValidationParagraph, 3000)
+
        console.log(startDate.value)
 
-       console.log(validationpara.innerHTML)
+      
 
        function clearValidationParagraph (){
            validationpara.innerHTML = ''}
+        
+
+
 
     }else{
     
@@ -119,6 +99,16 @@ function calculateFinishTime() {
   var newYear = m3.getFullYear()
 
   var newHours = m3.getHours()
+
+  if (m3.getHours() < 10){
+      newHours = '0' + m3.getHours()
+
+  }else{
+      newHours = m3.getHours()
+  }
+
+
+
   var newMinutes;
 
   if (m3.getMinutes() < 10) {
@@ -128,19 +118,21 @@ function calculateFinishTime() {
       newMinutes =m3.getMinutes()
   }
 
-  console.log(NewDate)
-  console.log(NewMonth)
+  
 
-  // var m2 = m.add(selectedDuration,'minutes')// need to change this to hours
+ 
 
   console.log(newYear, NewMonth, NewDate)
    finishDate.value = (`${newYear}-${NewMonth}-${NewDate}`)
    finishTime.value = (`${newHours}:${newMinutes}`)
-
-   
+  
+   console.log(finishTime.value)
+  
    addFastToList(startDate.value,startTime.value, selectedDuration, finishDate.value, finishTime.value)
-
+   //getFastFromLocalStorage()
 }
+            
+            //getFastFromLocalStorage()
 
     }
     
@@ -151,18 +143,24 @@ function calculateFinishTime() {
   
    
     
-   
-   // getFastFromLocalStorage()
+
     
 
 
 
 function addFastToList(startdate, starttime, duration, enddate, endtime){
-    var startdate
+
+
+
 
     const list = document.getElementById('individual-fasts')
     const row = document.createElement('tr')
-    row.innerHTML = `<td >${startdate}</td>
+
+    if (totalNumberOfRows >=5 ){
+        return
+
+    }else{
+        row.innerHTML = `<td >${startdate}</td>
                          <td>${starttime}</td>
                          <td>${duration}</td>
                          <td>${enddate}</td>
@@ -170,13 +168,34 @@ function addFastToList(startdate, starttime, duration, enddate, endtime){
                          <td class = 'delete'>X</td>`
 
                          list.appendChild(row)
-                         console.log()
+
+    }
+   
+    
+                         
+                       var totalNumberOfRows = CountRows()
+                       console.log(totalNumberOfRows)
+                        
+
+                         function CountRows() {
+                            var totalRowCount = 0;
+                            var rowCount = 0;
+                            var table = document.getElementById("individual-fasts");
+                            var rows = table.getElementsByTagName("tr")
+                            for (var i = 0; i < rows.length; i++) {
+                                totalRowCount++;
+                                if (rows[i].getElementsByTagName("td").length > 0) {
+                                    rowCount++;
+                                }
+                            }
+                           return totalRowCount
+                        }
 
 
-                         //var fastperiod = {'start-date/time':m,'duration':selectedDuration, 'end-date/time':m2 }
+                        
 
                          storeFastInLocalStorage(startdate, starttime, duration, enddate, endtime)    
-                         //getFastFromLocalStorage(m,selectedDuration,m2)
+                    
 
                          setTimeout(clearFields, 2000)
 
@@ -205,15 +224,40 @@ function storeFastInLocalStorage(startdate, starttime, duration, enddate, endtim
         fasts = JSON.parse(localStorage.getItem('fasts'))
 
     }
-   
+
+    if (fasts.length >= 5) {
+    
+
+           var validationpara = document.getElementById('validationalert')
+           validationpara.innerHTML = 'a maximum of 5 fasts periods are allowed'
+    
+           setTimeout(clearValidationParagraph, 3000)
+    
+           console.log(startDate.value)
+    
+          
+    
+           function clearValidationParagraph (){
+               validationpara.innerHTML = ''}
+
+
+        return fasts   
+        
+        
+       
+ 
+    }else{
         fasts.push(fastperiod)
 
         localStorage.setItem('fasts', JSON.stringify(fasts))
         console.log(fasts.length)
 
-        
+
+    }
+ 
        
 }
+
 
 function getFastFromLocalStorage(){
  
@@ -227,7 +271,8 @@ function getFastFromLocalStorage(){
     fasts.forEach(function(fast){
         const list = document.getElementById('individual-fasts')
         const row = document.createElement('tr')
-        row.innerHTML = `<td>${fast[0]}</td>
+        row.innerHTML = 
+        `<td>${fast[0]}</td>
         <td>${fast[1]}</td>
         <td>${fast[2]}</td>
         <td>${fast[3]}</td>
@@ -237,7 +282,7 @@ function getFastFromLocalStorage(){
                          list.appendChild(row)
                         
                         
-                         
+                   console.log(fasts)      
 
     })
    
@@ -265,14 +310,16 @@ function onDeleteRow(e){
     }
   const btn = e.target;
   btn.closest('tr').remove()
+  console.log(btn.closest('tr'))
 
-  removeFastPeriodFromLocalStorage()
+  removeFastPeriodFromLocalStorage(btn.closest('tr'))
+ 
    
 
 }
 
 
-function removeFastPeriodFromLocalStorage(fastperiod){
+function removeFastPeriodFromLocalStorage(fast){
     let fasts ;
      if(localStorage.getItem('fasts') === null){
          fasts = []
@@ -282,8 +329,9 @@ function removeFastPeriodFromLocalStorage(fastperiod){
         }
 
     fasts.forEach(function(fast, index){
-        if(fastperiod === fastperiod){
+        if(fast === fast){
             fasts.splice(index,1);
+            console.log(fast)
         }
     })
       localStorage.setItem('fasts', JSON.stringify(fasts));
